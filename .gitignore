@@ -23,11 +23,6 @@ wheels/
 *.egg
 .installed.cfg
 
-# PyInstaller
-# Typically created by a python script from a template; adjust if needed.
-*.manifest
-*.spec
-
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
