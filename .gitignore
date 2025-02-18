@@ -9,20 +9,19 @@ __pycache__/
 
 # Distribution / packaging
 build/
-develop-eggs/
 dist/
-downloads/
 eggs/
-.eggs/
+*.egg-info/
+develop-eggs/
+downloads/
 lib/
 lib64/
 parts/
 sdist/
 var/
 wheels/
-*.egg-info/
-.installed.cfg
 *.egg
+.installed.cfg
 
 # PyInstaller
 # Typically created by a python script from a template; adjust if needed.
