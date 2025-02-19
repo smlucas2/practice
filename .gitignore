@@ -1,7 +1,97 @@
-# Python cache files
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+*$py.class
+*.so
 
-# Virtual environment
-venv/
+# C extensions
+*.so
+
+# Distribution / packaging
+build/
+dist/
+eggs/
+*.egg-info/
+develop-eggs/
+downloads/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg
+.installed.cfg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django-specific (if using Django; otherwise you can remove these)
+*.log
+local_settings.py
+db.sqlite3
+
+# Flask-specific (if using Flask)
+instance/
+.webassets-cache
+
+# Scrapy-specific
+.scrapy
+
+# Sphinx documentation build
+docs/_build/
+
+# PyBuilder
+target/
+
+# IPython Notebook
+.ipynb_checkpoints
+
+# IPython configuration
+profile_default/
+ipython_config.py
+
+# Virtual environments
+.env
+.venv
 env/
+venv/
+
+# pyenv
+.python-version
+
+# Editor and IDE settings
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Miscellaneous backup or temporary files
+*.bak
+*.tmp
+
+# Aider
+.aider.*
+.aider*
