@@ -16,6 +16,7 @@ class TestCalculator(unittest.TestCase):
         self._set_calculator_state(42, "+", False, True)
         self.calc.reset()
         self._assert_calculator_state(0, None, True, False)
+
     def test_handle_number_single_digit(self):
         self.assertEqual(self.calc.handle_number("5"), "5")
         self.assertEqual(self.calc.current_value, 5)
@@ -99,10 +100,31 @@ class TestCalculator(unittest.TestCase):
         self.calc.handle_operation("*")
         self.calc.handle_number("4")
         self.assertEqual(self.calc.calculate_result(), "20")
+
     def test_large_numbers(self):
         max_safe = "9999999999"
         self.calc.handle_number(max_safe)
         self.assertEqual(self.calc.handle_number(max_safe), max_safe)
+
+    def test_operations_with_negative_numbers(self):
+        self._perform_operation("-5", "+", "3")
+        self.assertEqual(self.calc.calculate_result(), "-2")
+        self._perform_operation("-5", "-", "3")
+        self.assertEqual(self.calc.calculate_result(), "-8")
+        self._perform_operation("-5", "*", "3")
+        self.assertEqual(self.calc.calculate_result(), "-15")
+        self._perform_operation("-5", "/", "2")
+        self.assertEqual(self.calc.calculate_result(), "-2.5")
+
+    def test_sequential_operations_with_negative_numbers(self):
+        self._perform_operation("-5", "+", "3")
+        self.calc.handle_operation("*")
+        self.calc.handle_number("-2")
+        self.assertEqual(self.calc.calculate_result(), "4")
+        self._perform_operation("-5", "-", "3")
+        self.calc.handle_operation("/")
+        self.calc.handle_number("-2")
+        self.assertEqual(self.calc.calculate_result(), "4")
 
     def _set_calculator_state(self, value, operation, new_number, error_state):
         self.calc.current_value = value
