@@ -1,94 +1,96 @@
-"""
-Module for managing the overall game state.
-"""
 from typing import Literal
+
 from .snake import Snake, Direction
 from .dot import Dot
 
 GameState = Literal["RUNNING", "PAUSED", "GAME_OVER", "WON"]
 
 class Game:
-    """Manages the overall game state and logic."""
-    
+    """
+    Represents the game state and logic for the Snake game.
+    """
+
     def __init__(self, width: int = 600, height: int = 400, cell_size: int = 20, win_score: int = 20) -> None:
-        """
-        Initialize a new game.
-        
-        Args:
-            width: Game board width in pixels
-            height: Game board height in pixels
-            cell_size: Size of each cell in pixels
-            win_score: Score needed to win the game
-        """
         self.width = width
         self.height = height
         self.cell_size = cell_size
         self.win_score = win_score
-        
-        self.snake = Snake(width, height, cell_size)
-        self.dot = Dot(width, height, cell_size)
-        self.score = 0
-        self.state: GameState = "PAUSED"
-    
-    def start(self) -> None:
-        """Start or restart the game."""
+
+        self.reset_game()
+
+    def reset_game(self) -> None:
+        """
+        Resets the game to its initial state.
+        """
         self.snake = Snake(self.width, self.height, self.cell_size)
         self.dot = Dot(self.width, self.height, self.cell_size)
         self.score = 0
+        self.state: GameState = "PAUSED"
+
+    def start(self) -> None:
+        """
+        Starts the game.
+        """
+        self.reset_game()
         self.state = "RUNNING"
-        # Ensure dot doesn't spawn on snake
         self.dot.reposition(self.snake.segments)
-    
+
     def update(self) -> None:
         """
-        Update game state for one tick.
-        
-        This method is called periodically by the game loop to:
-        1. Move the snake
-        2. Check for collisions
-        3. Check if dot was eaten
-        4. Update score and check win condition
+        Updates the game state.
         """
         if self.state != "RUNNING":
             return
-            
+
         self.snake.move()
-        
-        # Check for collisions
+
         if self.snake.check_collision():
             self.game_over()
             return
-        
-        # Check if dot was eaten
+
         if self.snake.segments[0] == self.dot.position:
-            self.score += 1
-            self.snake.grow()
-            self.dot.reposition(self.snake.segments)
-            
-            # Check win condition
-            if self.score >= self.win_score:
-                self.win_game()
-    
+            self.handle_dot_eaten()
+
+    def handle_dot_eaten(self) -> None:
+        """
+        Handles the event when the snake eats a dot.
+        """
+        self.score += 1
+        self.snake.grow()
+        self.dot.reposition(self.snake.segments)
+
+        if self.score >= self.win_score:
+            self.win_game()
+
     def change_direction(self, direction: Direction) -> None:
         """
-        Change the snake's direction.
-        
-        Args:
-            direction: New direction for the snake
+        Changes the direction of the snake.
+
+        :param direction: The new direction for the snake.
         """
         if self.state == "RUNNING":
             self.snake.change_direction(direction)
-    
+
     def game_over(self) -> None:
-        """Handle game over state."""
+        """
+        Ends the game with a game over state.
+        """
         self.state = "GAME_OVER"
-    
+
     def win_game(self) -> None:
-        """Handle winning the game."""
+        """
+        Ends the game with a win state.
+        """
         self.state = "WON"
-    
+
     def toggle_pause(self) -> None:
-        """Toggle between paused and running states."""
+        """
+        Toggles the pause state of the game.
+        """
+        if self.state == "RUNNING":
+            self.state = "PAUSED"
+        elif self.state == "PAUSED":
+            self.state = "RUNNING"
         if self.state == "RUNNING":
             self.state = "PAUSED"
         elif self.state == "PAUSED":
