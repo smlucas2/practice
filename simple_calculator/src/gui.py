@@ -85,9 +85,3 @@ class CalculatorWindow(QMainWindow):
 
     def show(self):
         super().show()
-
-    def start_event_loop(self):
-        self.app = QApplication.instance()
-        if self.app is None:
-            self.app = QApplication(sys.argv)
-        self.app.exec()
