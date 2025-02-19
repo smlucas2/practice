@@ -1,0 +1,6 @@
+Implement Calculator class with basic arithmetic operations
+
+- Added methods to handle numbers and operations.
+- Implemented error handling for division by zero and large numbers.
+- Included functionality to reset the calculator state.
+- Added formatting for displaying numbers.
