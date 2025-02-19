@@ -2,9 +2,9 @@
 Test module for game logic.
 """
 import unittest
-from ..snake import Snake
-from ..dot import Dot
-from ..game import Game
+from src.snake import Snake
+from src.dot import Dot
+from src.game import Game
 
 class TestSnake(unittest.TestCase):
     """Test cases for Snake class."""
