@@ -1,8 +1,15 @@
 class Calculator:
+    """
+    A simple calculator class that supports basic arithmetic operations.
+    """
+
     def __init__(self):
         self.reset()
 
     def reset(self):
+        """
+        Resets the calculator to its initial state.
+        """
         self.current_value = 0
         self.previous_value = None
         self.pending_operation = None
@@ -11,12 +18,20 @@ class Calculator:
         self.negative_first = False
 
     def handle_number(self, number: str) -> str:
+        """
+        Handles the input of a number.
+
+        Args:
+            number (str): The number to handle.
+
+        Returns:
+            str: The formatted current value.
+        """
         if self.error_state:
             self.reset()
 
-        # Prevent numbers from becoming too large
         current_str = str(self.current_value) if not self.new_number else ""
-        if len(current_str + number) > 10:  # Limit to 10 digits
+        if len(current_str + number) > 10:
             return self._format_number(self.current_value)
 
         if self.new_number:
@@ -32,6 +47,15 @@ class Calculator:
         return self._format_number(self.current_value)
 
     def handle_operation(self, operation: str) -> str:
+        """
+        Handles the input of an operation.
+
+        Args:
+            operation (str): The operation to handle.
+
+        Returns:
+            str: The formatted current value.
+        """
         if self.error_state:
             self.reset()
 
@@ -53,15 +77,19 @@ class Calculator:
         return self._format_number(self.current_value)
 
     def calculate_result(self) -> str:
+        """
+        Calculates the result of the current operation.
+
+        Returns:
+            str: The formatted result.
+        """
         if self.error_state:
             self.reset()
             return "0"
-        
+
         if not self.pending_operation:
             return self._format_number(self.current_value)
 
-        # If we have a pending operation but new_number is still True,
-        # it means no second number was entered
         if self.new_number:
             return self._format_number(self.current_value)
 
