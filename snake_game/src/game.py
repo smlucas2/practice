@@ -91,7 +91,3 @@ class Game:
             self.state = "PAUSED"
         elif self.state == "PAUSED":
             self.state = "RUNNING"
-        if self.state == "RUNNING":
-            self.state = "PAUSED"
-        elif self.state == "PAUSED":
-            self.state = "RUNNING"

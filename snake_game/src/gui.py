@@ -34,6 +34,7 @@ class SnakeGameWindow(QMainWindow):
     def keyPressEvent(self, event: QKeyEvent) -> None:
         """
         Handle key press events to control the game.
+        Overrides the keyPressEvent method from QMainWindow.
         """
         key_map = {
             Qt.Key.Key_Up: "UP",
@@ -51,6 +52,7 @@ class SnakeGameWindow(QMainWindow):
     def paintEvent(self, event) -> None:
         """
         Handle paint events to draw the game on the window.
+        Overrides the paintEvent method from QMainWindow.
         """
         painter = QPainter(self)
         self._draw_background(painter)
