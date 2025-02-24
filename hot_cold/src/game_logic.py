@@ -1,58 +1,47 @@
-"""
-Game Logic Module
-
-This module handles the core game mechanics including random number generation,
-guess validation, and feedback calculation for the Hot-Cold number guessing game.
-"""
-
 import random
 from typing import Tuple
 
 class GameLogic:
-    """
-    Manages the game's core logic including number generation and guess evaluation.
-    """
-    
+    HOT = "HOT"
+    COLD = "COLD"
+
     def __init__(self):
-        """Initialize game state with a random target number."""
-        self.target_number = None
-        self.previous_distance = None
         self.min_number = 1
         self.max_number = 100
-        self.generate_number()
+        self.reset_game()
 
-    def generate_number(self) -> None:
-        """Generate a new random target number between min and max bounds."""
-        self.target_number = random.randint(self.min_number, self.max_number)
+    def reset_game(self) -> None:
+        """
+        Resets the game by generating a new target number and resetting the previous distance.
+        """
+        self.target_number = self._generate_target_number()
         self.previous_distance = None
 
     def validate_guess(self, guess: str) -> Tuple[bool, str]:
         """
-        Validate if the guess is a valid integer within the allowed range.
-        
+        Validates the user's guess to ensure it is within the acceptable range.
+
         Args:
-            guess: The user's guess as a string
-            
+            guess (str): The user's guess as a string.
+
         Returns:
-            Tuple of (is_valid: bool, error_message: str)
+            Tuple[bool, str]: A tuple where the first element is a boolean indicating if the guess is valid,
+                             and the second element is an error message if the guess is invalid.
         """
-        try:
-            num = int(guess)
-            if self.min_number <= num <= self.max_number:
-                return True, ""
+        if not self._is_valid_number(guess):
             return False, f"Guess must be between {self.min_number} and {self.max_number}"
-        except ValueError:
-            return False, "Please enter a valid number"
+        return True, ""
 
     def check_guess(self, guess: str) -> Tuple[str, bool]:
         """
-        Evaluate the guess and provide feedback.
-        
+        Checks the user's guess against the target number and provides feedback.
+
         Args:
-            guess: The user's guess as a string
-            
+            guess (str): The user's guess as a string.
+
         Returns:
-            Tuple of (feedback: str, is_winner: bool)
+            Tuple[str, bool]: A tuple where the first element is a feedback message,
+                             and the second element is a boolean indicating if the guess is correct.
         """
         is_valid, error_msg = self.validate_guess(guess)
         if not is_valid:
@@ -60,22 +49,24 @@ class GameLogic:
 
         num_guess = int(guess)
         if num_guess == self.target_number:
-            return "WINNER", True
+            return "WINNER!", True
 
         current_distance = abs(num_guess - self.target_number)
-        
-        if self.previous_distance is None:
-            self.previous_distance = current_distance
-            return "Start guessing!", False
-            
-        if current_distance < self.previous_distance:
-            feedback = "hot"
-        else:
-            feedback = "cold"
-            
+        feedback = self._provide_feedback(current_distance)
         self.previous_distance = current_distance
         return feedback, False
 
-    def reset_game(self) -> None:
-        """Reset the game state with a new target number."""
-        self.generate_number()
+    def _generate_target_number(self) -> int:
+        return random.randint(self.min_number, self.max_number)
+
+    def _is_valid_number(self, guess: str) -> bool:
+        try:
+            num = int(guess)
+            return self.min_number <= num <= self.max_number
+        except ValueError:
+            return False
+
+    def _provide_feedback(self, current_distance: int) -> str:
+        if self.previous_distance is None:
+            return "Now guess closer!"
+        return self.HOT if current_distance < self.previous_distance else self.COLD
