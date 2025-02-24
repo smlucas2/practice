@@ -92,6 +92,5 @@ Thumbs.db
 *.bak
 *.tmp
 
-# Aider
-.aider.*
-.aider*
+# Architecture
+architecture/
